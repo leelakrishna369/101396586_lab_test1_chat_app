@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #5dfd75, #3d3d3e);
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        form {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            background: #f4f4f4;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #2575fc;
+            background: #fff;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: #2575fc;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #6a11cb;
+        }
+
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Signup</h2>
+        <form id="signupForm">
+            <input type="text" id="username" placeholder="Username" required autocomplete="off">
+            <input type="text" id="firstname" placeholder="First Name" required autocomplete="off">
+            <input type="text" id="lastname" placeholder="Last Name" required autocomplete="off">
+            <input type="password" id="password" placeholder="Password" required autocomplete="off">
+            <button type="submit">Signup</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#signupForm").submit(function (e) {
+                e.preventDefault();
+
+                const userData = {
+                    username: $("#username").val().trim(),
+                    firstname: $("#firstname").val().trim(),
+                    lastname: $("#lastname").val().trim(),
+                    password: $("#password").val().trim()
+                };
+
+                console.log("Sending signup data:", userData);
+
+                $.ajax({
+                    url: "http://localhost:5000/signup",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(userData),
+                    success: function () {
+                        alert("Signup successful! Please login.");
+                        window.location.href = "login.html";
+                    },
+                    error: function (xhr) {
+                        console.error("Signup failed:", xhr.responseText);
+                        alert("Signup failed: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
